@@ -59,6 +59,7 @@ int main(int argc, char* argv[])
     }
     if(CVR_Init() != 0)
     {
+        printf("failed to start openvr, start steamvr first\n");
         return 1;
     }
 
@@ -74,6 +75,8 @@ int main(int argc, char* argv[])
             break;
         }
     }
+
+    createfaces();
 
     CVR_Shutdown();
     return 0;
