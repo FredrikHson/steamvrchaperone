@@ -1,5 +1,9 @@
 #include <openvr/openvr.h>
 #include "vr_bullshit.h"
+#include "vert.h"
+
+extern vert verts[256];
+extern int numverts;
 
 using namespace vr;
 
@@ -23,7 +27,7 @@ char CVR_Shutdown()
     return 0;
 }
 
-void CVR_HandleInput()
+char CVR_HandleInput()
 {
     VREvent_t event;
 
@@ -73,13 +77,30 @@ void CVR_HandleInput()
 
         if(vrsys->GetControllerState(i, &cstate, sizeof(cstate)))
         {
-            if(cstate.ulButtonPressed != cstates[i].ulButtonPressed && cstate.ulButtonPressed != 0)
+            if(cstate.ulButtonPressed != cstates[i].ulButtonPressed &&
+               cstate.ulButtonPressed & ButtonMaskFromId(EVRButtonId::k_EButton_SteamVR_Trigger))
             {
-                fprintf(stderr, "v %lf %lf %lf\n", x, y, z);
+                verts[numverts].x = x;
+                verts[numverts].y = y;
+                verts[numverts].z = z;
+                numverts++;
+
+                if(numverts == 256)
+                {
+                    return 1;
+                }
+            }
+
+            if(cstate.ulButtonPressed != cstates[i].ulButtonPressed &&
+               cstate.ulButtonPressed & ButtonMaskFromId(EVRButtonId::k_EButton_ApplicationMenu))
+            {
+                return 1; // finishup and exit
             }
 
             cstates[i] = cstate;
             //printf("%i %lu\n", i, cstate.ulButtonPressed);
         }
     }
+
+    return 0;
 }

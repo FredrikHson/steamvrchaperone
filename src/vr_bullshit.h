@@ -6,7 +6,7 @@ extern "C" {
 
 char CVR_Init();
 char CVR_Shutdown();
-void CVR_HandleInput();
+char CVR_HandleInput();
 
 #ifdef __cplusplus
 }
