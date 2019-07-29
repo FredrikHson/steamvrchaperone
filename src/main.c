@@ -2,11 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <getopt.h>
-#include <linux/limits.h>
 #include "vert.h"
 #include "vr_bullshit.h"
 
-char inputfilename[PATH_MAX] = {0};
 
 vert verts[256] = {0};
 int numverts = 0;
