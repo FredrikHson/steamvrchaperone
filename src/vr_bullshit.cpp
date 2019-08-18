@@ -80,6 +80,7 @@ char CVR_HandleInput()
             if(cstate.ulButtonPressed != cstates[i].ulButtonPressed &&
                cstate.ulButtonPressed & ButtonMaskFromId(EVRButtonId::k_EButton_SteamVR_Trigger))
             {
+                printf("added vertex %i:%f %f %f\n", numverts, x, y, z);
                 verts[numverts].x = x;
                 verts[numverts].y = y;
                 verts[numverts].z = z;

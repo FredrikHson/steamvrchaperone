@@ -12,25 +12,29 @@ double height = 2.42;
 
 void createfaces()
 {
+    FILE* f = fopen("output.json", "wb");
+
     for(int i = 0; i < numverts; i++)
     {
-        printf("[\n");
+        fprintf(f, "[\n");
         vert* v1 = &verts[i];
         vert* v2 = &verts[(i + 1) % numverts];
-        printf("[ %lf, %lf, %lf ],\n", v2->x, 0.0, v2->z);
-        printf("[ %lf, %lf, %lf ],\n", v2->x, height, v2->z);
-        printf("[ %lf, %lf, %lf ],\n", v1->x, height, v1->z);
-        printf("[ %lf, %lf, %lf ]\n", v1->x, 0.0, v1->z);
+        fprintf(f, "[ %lf, %lf, %lf ],\n", v2->x, 0.0, v2->z);
+        fprintf(f, "[ %lf, %lf, %lf ],\n", v2->x, height, v2->z);
+        fprintf(f, "[ %lf, %lf, %lf ],\n", v1->x, height, v1->z);
+        fprintf(f, "[ %lf, %lf, %lf ]\n", v1->x, 0.0, v1->z);
 
         if(i == numverts - 1)
         {
-            printf("]\n");
+            fprintf(f, "]\n");
         }
         else
         {
-            printf("],\n");
+            fprintf(f, "],\n");
         }
     }
+
+    fclose(f);
 }
 
 int main(int argc, char* argv[])
@@ -57,6 +61,7 @@ int main(int argc, char* argv[])
                 break;
         }
     }
+
     if(CVR_Init() != 0)
     {
         printf("failed to start openvr, start steamvr first\n");
@@ -77,7 +82,6 @@ int main(int argc, char* argv[])
     }
 
     createfaces();
-
     CVR_Shutdown();
     return 0;
 }
